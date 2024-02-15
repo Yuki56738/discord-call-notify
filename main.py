@@ -31,7 +31,7 @@ async def on_voice_state_update(member: Member, before: VoiceState, after: Voice
         r: collections.OrderedDict = table.find_one(guild_id=member.guild.id)
         channel: TextChannel = member.guild.get_channel(int(r['notify_channel']))
         NOTIFY_USER_ID = os.environ.get('NOTIFY_USER_ID')
-        NOTIFY_USER = bot.get_user(int(NOTIFY_USER_ID))
+        NOTIFY_USER = await bot.fetch_user(int(NOTIFY_USER_ID))
         await channel.send(f'{NOTIFY_USER.mention} {member.name} ({member.display_name}) が参加したよ〜。')
 async def checkpermit(ctx: ApplicationContext):
     if not ctx.user.guild_permissions.administrator:
