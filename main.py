@@ -3,12 +3,15 @@ import os
 
 import dataset
 import discord
+
 from dotenv import load_dotenv
 from discord import *
 from dataset import *
 # https://discord.com/api/oauth2/authorize?client_id=1198563868042084352&permissions=68608&scope=bot+applications.commands
 
 load_dotenv()
+# NOTIFY_USER_ID = os.environ.get('NOTIFY_USER_ID')
+# print(f'NOTIFY_USER_ID: {NOTIFY_USER_ID}')
 
 
 bot = discord.Bot(intentes=discord.Intents.all())
@@ -27,7 +30,9 @@ async def on_voice_state_update(member: Member, before: VoiceState, after: Voice
         table: dataset.Table = db['settings']
         r: collections.OrderedDict = table.find_one(guild_id=member.guild.id)
         channel: TextChannel = member.guild.get_channel(int(r['notify_channel']))
-        await channel.send(f'{member.name} ({member.display_name}) が参加したよ〜。')
+        NOTIFY_USER_ID = os.environ.get('NOTIFY_USER_ID')
+        NOTIFY_USER = bot.get_user(int(NOTIFY_USER_ID))
+        await channel.send(f'{NOTIFY_USER.mention} {member.name} ({member.display_name}) が参加したよ〜。')
 async def checkpermit(ctx: ApplicationContext):
     if not ctx.user.guild_permissions.administrator:
         return False
