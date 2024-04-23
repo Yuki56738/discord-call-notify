@@ -81,9 +81,6 @@ async def delusermsg(ctx: ApplicationContext, user_id: str):
                 await ctx.send_followup('削除しています...')
                 await x.delete()
     await ctx.send_followup('削除しました.')
-    # for msg in msgs:
-    #     msg: Message
-    #     if msg.author.id == int(user_id):
-    #         await msg.delete()
+
 
 bot.run(os.environ.get("DISCORD_TOKEN"))
